@@ -8,7 +8,9 @@
     "classnames": "^2.2.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-router": "^2.8.1"
+    "react-redux": "^4.4.5",
+    "react-router": "^2.8.1",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
@@ -33,7 +35,7 @@
     "webpack-module-hot-accept": "^1.0.4"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --hot --watch-poll",
     "build": "webpack"
   },
   "repository": {

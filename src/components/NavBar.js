@@ -18,6 +18,7 @@ const NavBar = () => (
         </button>
         <a className="navbar-brand" href="#">Twister </a>
       </div>
+
     </div>
   </nav>
 )

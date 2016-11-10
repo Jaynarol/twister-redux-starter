@@ -4,7 +4,7 @@ import Tweet from './Tweet'
 class TweetList extends Component {
 
   componentDidMount(){
-    const username = this.props.ownerUsername || 'jaynarol'
+    const username = this.props.ownerUsername || 'topscores'
     this.props.fetchTweets(username)
   }
 

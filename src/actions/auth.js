@@ -15,7 +15,7 @@ const login = (username, password) => (dispatch) =>{
     const uri = 'http://192.168.31.166:3000/api/TwisterUsers/login'
     const header = {
         method: 'POST',
-        header: {
+        headers: {
             accept: 'application/json',
             'Content-type': 'application/json',
         },
@@ -32,7 +32,7 @@ const login = (username, password) => (dispatch) =>{
             }
             return response.json()
         })
-        .then((authInfo) => dispatch(loginSuccess(...authInfo)))
+        .then((authInfo) => dispatch(loginSuccess(authInfo.username, authInfo.password, authInfo.token)))
         .catch((err) => console.error(err))
 
 }

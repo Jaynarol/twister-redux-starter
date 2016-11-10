@@ -1,44 +1,80 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Field, reduxForm} from 'redux-form'
-import {login} from "../actions/auth";
-import {connect} from "react-redux/";
+import {connect} from "react-redux/"
+import {push} from 'redux-router'
+import {login} from "../actions/auth"
 
-const LoginInput = (props) => (
-    <div className="form-group">
-        <input {...props} />
-    </div>
-)
+class LoginForm extends Component{
 
-const LoginForm = (props) => {
-
-    const submitLogin = (values) => {
-        props.login(values.username, values.password)
+    constructor(props) {
+        super(props)
+        this.submitLogin = this.submitLogin.bind(this)
     }
 
-    return (
-        <div className="login-form">
-            <form onSubmit={props.handleSubmit(submitLogin)}>
-                <div className="login-label">
-                    Log in with your username
-                </div>
-                <Field name="username" component={LoginInput} type="text" className="form-control"
-                       placeholder="Username"/>
-                <Field name="password" component={LoginInput} type="password" className="form-control"
-                       placeholder="Password"/>
-                <div className="form-group text-right">
-                    <button className="btn btn-default">Log in</button>
-                </div>
-            </form>
-        </div>
-    )
+    componentWillMount() {
+        if (this.props.token) {
+            this.props.redirect('/')
+        }
+    }
+
+    componentWillUpdate(nextProps) {
+        if (nextProps.token) {
+            this.props.redirect('/')
+        }
+    }
+
+    submitLogin(values) {
+        this.props.login(values.username, values.password)
+    }
+
+    render(){
+        const LoginInput = (props) => (
+            <div className="form-group">
+                <input {...props.input} {...props} />
+            </div>
+        )
+        return (
+            <div className="login-form">
+                <form onSubmit={this.props.handleSubmit(this.submitLogin)}>
+                    <div className="login-label">
+                        Log in with your username
+                    </div>
+                    <Field name="username" component={LoginInput} type="text" className="form-control"
+                           placeholder="Username"/>
+                    <Field name="password" component={LoginInput} type="password" className="form-control"
+                           placeholder="Password"/>
+                    <div className="form-group text-right">
+                        <button className="btn btn-default">Log in</button>
+                    </div>
+                </form>
+            </div>
+        )
+    }
+}
+
+LoginForm.propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    redirect: PropTypes.func.isRequired,
+    token: PropTypes.string,
+}
+
+LoginForm.defaultProps = {
+    token: '',
 }
 
 const LoginReduxForm = reduxForm({
     form: 'login'
 })(LoginForm)
 
-const mapDispatchToProps = (dispatch) =>({
-    login: (username, password) => dispatch(login(username, password))
+const mapStateToProps = (state) => ({
+    token: state.auth.token
 })
 
-export default connect(null, mapDispatchToProps)(LoginReduxForm)
+const mapDispatchToProps = (dispatch) =>({
+    login: (username, password) => dispatch(login(username, password)),
+    redirect: url => dispatch(push(url))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginReduxForm)
+// export default connect(mapStateToProps, {login, redirect})(LoginReduxForm)

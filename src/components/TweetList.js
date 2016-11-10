@@ -2,16 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import Tweet from './Tweet'
 
 class TweetList extends Component {
-  constructor(props){
-    super(props)
-  }
 
   componentDidMount(){
-    const mockTweets = [
-      {id: 1, name: 'Nova', username: 'jaynarol', tweetText: 'Hello', timestamp: 1234},
-      {id: 2, name: 'Nova', username: 'jaynarol', tweetText: 'Again', timestamp: 5678}
-    ]
-    this.props.fetchTweetsSuccess(mockTweets)
+    const username = this.props.ownerUsername || 'jaynarol'
+    this.props.fetchTweets(username)
   }
 
   render(){

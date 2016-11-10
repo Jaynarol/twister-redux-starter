@@ -3,7 +3,7 @@ import {FETCH_TWEETS_SUCCESS} from '../actions/types'
 const initialState = []
 
 const tweetsReducer = (state = [], action) => {
-    switch (action.types) {
+    switch (action.type) {
         case FETCH_TWEETS_SUCCESS: {
             return action.payload.tweets
         }
